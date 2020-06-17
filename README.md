@@ -28,8 +28,8 @@ typedef struct RecordAddress {
 We can access the flash memory from a `CustoFlash` object. Here are some of the functions that we can use.
 
 #### 1.2.1 `beginWork()` and `endWork()`
-**Parameter(s)**: null,\
-**Return**: null,\
+**Parameter(s)**: void,\
+**Return**: void,\
 **Description**:\
 `beginWork()` and `endWork()` are the most important functions to call before and after using the flash memory respectively. This ensures the SPI pin does not conflict with other components on the MKRWAN 1310 (eg. the LoRa modem).
 
@@ -78,7 +78,7 @@ uint16_t recordsSize = flash.readRecords(recordAddresses, 5, buf);  //in case th
 
 #### 1.2.5 `markRecordSent()`
 **Parameter(s)**: `RecordAddress_t recordAddr`,\
-**Return**: null,\
+**Return**: void,\
 **Description**:\
 `markRecordSent()` function will mark the record of the given address as *sent*.\
 **Example**:
@@ -92,7 +92,7 @@ flash.markRecordSent(recordAddr);
 
 #### 1.2.6 `markRecordsSent()`
 **Parameter(s)**: `RecordAddress_t* recordAddresses` and `uint16_t length`,\
-**Return**: null,\
+**Return**: void,\
 **Description**:\
 `markRecordsSent()` will mark the array of given addresses as *sent*.\
 **Example**:
@@ -101,13 +101,13 @@ flash.markRecordsSent(recordAddresses, 5);  //suppose there are 5 addresses in r
 ```
 
 #### 1.2.7 `markLatestWrittenRecordSent()`
-**Parameter(s)**: null,\
-**Return**: null,\
+**Parameter(s)**: void,\
+**Return**: void,\
 **Description**:\
 `markLatestWrittenRecordSent()` wraps `markRecordsSent()` to mark the latest record written to the memory as sent. Using this reduces the complexity of the code as it does not require any parameter.
 
 #### 1.2.8 `getLatestWrittenRecordSector()`
-**Parameter(s)**: null,\
+**Parameter(s)**: void,\
 **Return**: `uint16_t` Sector index of the latest written record,\
 **Description**:\
 `getLatestWrittenRecordSector()` returns the sector index of the latest written record, which is a part of the record address. It is often used with `getLatestWrittenRecordIndex()` mentioned below.
@@ -125,7 +125,7 @@ uint16_t recordIndex = flash.getLatestWrittenRecordIndex(sectorIndex);
 ```
 
 #### 1.2.10 `getEarliestBacklogSector()`
-**Parameter(s)**: null,\
+**Parameter(s)**: void,\
 **Return**: `uint16_t` Sector index of the earliest backlog,\
 **Description**:\
 `getEarliestBacklogSector()` returns the sector index of the earliest backlog. **A backlog is an unsent record written in the past**. This function is often used with `getEarliestBacklogIndex()`. `getEarliestBacklogSector()` will return `NO_BACKLOG_SECTOR` when there is **no backlog in the flash memory**.
@@ -143,7 +143,7 @@ uint16_t recordIndex = flash.getEarliestBacklogIndex(sectorIndex);
 ```
 
 #### 1.2.12 `getLatestBacklogSector()`
-**Parameter(s)**: null,\
+**Parameter(s)**: void,\
 **Return**: `uint16_t` Sector index of the latest backlog,\
 **Description**:\
 `getLatestBacklogSector()` returns the sector index of the latest backlog. This function is often used with `getLatestBacklogIndex()`. `getLatestBacklogSector()` will return `NO_BACKLOG_SECTOR` when there is **no backlog in the flash memory**.
@@ -211,7 +211,7 @@ flash.markRecordsSent(addresses, arrayLength);
 
 #### 1.2.17 `read()`
 **Parameter(s)**: `uint32_t addr`, `void *buf` and `uint32_t len`,\
-**Return**: null,\
+**Return**: void,\
 **Description**:\
 This is the same `read()` function in the `SerialFlashChip` class. It reads directly from a memory address.\
 **Example**:
@@ -224,8 +224,8 @@ flash.read(memoryAddress, buf, 8);
 #### 1.2.18 `write()`
 **WARNING: THIS IS A DANGEROUS FUNCTION THAT MAY CORRUPT THE CUSTOFLASH FILESYSTEM OR CAUSE DATA LOSS. DO NOT USE THIS FUNCTION UNLESS YOU KNOW WHAT YOU ARE DOING.**
 
-**Parameter(s)**: `uint32_t addr`, `const void *buf` and `uint32_t len`
-**Return**: null,\
+**Parameter(s)**: `uint32_t addr`, `const void *buf` and `uint32_t len`,\
+**Return**: void,\
 **Description**:\
 This is the same `write()` function in the `SerialFlashChip` class. It writes directly into a memory address.\
 **Example**:
@@ -238,8 +238,8 @@ flash.write(memoryAddress, buf, 4);
 #### 1.2.19 `eraseAll()`
 **WARNING: THIS IS A DANGEROUS FUNCTION THAT MAY CORRUPT THE CUSTOFLASH FILESYSTEM OR CAUSE DATA LOSS. DO NOT USE THIS FUNCTION UNLESS YOU KNOW WHAT YOU ARE DOING.**
 
-**Parameter(s)**: null,\
-**Return**: null,\
+**Parameter(s)**: void,\
+**Return**: void,\
 **Description**:\
 This the same `eraseAll()` function in the `SerialFlashChip` class. It wipes the entire flash memory. Handle with care!
 
@@ -247,7 +247,7 @@ This the same `eraseAll()` function in the `SerialFlashChip` class. It wipes the
 **WARNING: THIS IS A DANGEROUS FUNCTION THAT MAY CORRUPT THE CUSTOFLASH FILESYSTEM OR CAUSE DATA LOSS. DO NOT USE THIS FUNCTION UNLESS YOU KNOW WHAT YOU ARE DOING.**
 
 **Parameter(s)**: `uint32_t addr`,\
-**Return**: null,\
+**Return**: void,\
 **Description**:\
 This is the same `eraseBlock()` function in the `SerialFlashChip` class. Pass the starting address of a memory block to wipe it. A memory block of the flash memory on the MKRWAN 1310 (W25Q16JV) is 65536 bytes. Handle with care!
 
@@ -255,7 +255,7 @@ This is the same `eraseBlock()` function in the `SerialFlashChip` class. Pass th
 **WARNING: THIS IS A DANGEROUS FUNCTION THAT MAY CORRUPT THE CUSTOFLASH FILESYSTEM OR CAUSE DATA LOSS. DO NOT USE THIS FUNCTION UNLESS YOU KNOW WHAT YOU ARE DOING.**
 
 **Parameter(s)**: `uint32_t addr`,\
-**Return**: null,\
+**Return**: void,\
 **Description**
 This is a custom made function that is added to the `SerialFlashChip` class. Pass the starting address of a memroy sector to wipe it. A memory sector of the flash memory on the MKRWAN 1310 (W25Q16JV) is 4096 bytes. Handle with care!
 
