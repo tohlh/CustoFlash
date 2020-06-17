@@ -4,10 +4,9 @@ CustoFlash is a custom SPI flash library used for writing sensor data into the f
 This library contains modified versions of `SerialFlashChip.cpp` and `SerialFlashChip.h` by PaulStoffregen.
 
 ## 1.0.0 Usage
-To use CustoFlash, we have to create a `CustoFlash` object.
+To use CustoFlash, we have to include the `CustoFlash.h` header. We will then call the functions with a `flash` object.
 ```cpp
 #include "CustoFlash.h"
-CustoFlash flash;
 ```
 
 ### 1.1.0 Data structure
@@ -269,12 +268,15 @@ uint16_t sectorIndex = 0;
 SerialFlashSector sector = flash.getSector(sectorIndex);
 ```
 Some functions that can be called from a `SerialFlashSector` object includes:
-1. `uint8_t getActiveFlag()` returns sector flag of the sector.
-2. `uint8_t getUnsentFlag()` returns unsent flag of the sector.
-3. `uint8_t getRecordSize()` returns the size of records written in the sector.
-4. `uint16_t getMaxCount()` returns the maximum number of records that can be written in the sector.
-5. `uint16_t getWrittenCount()` returns the number of records written in the sector.
-6. `uint16_t getUnsentCount()` returns the number of records that are unsent in the sector.
+1. `bool isActive()` returns true when the sector flag is active and vice versa,
+2. `bool isBlank()` returns true when the sector flag is blank and vice versa.
+3. `bool verifyBlank()` returns true when sector is verified to be blanka and vice versa.
+4. `uint8_t getActiveFlag()` returns sector flag of the sector.
+5. `uint8_t getUnsentFlag()` returns unsent flag of the sector.
+6. `uint8_t getRecordSize()` returns the size of records written in the sector.
+7. `uint16_t getMaxCount()` returns the maximum number of records that can be written in the sector.
+8. `uint16_t getWrittenCount()` returns the number of records written in the sector.
+9. `uint16_t getUnsentCount()` returns the number of records that are unsent in the sector.
 
 #### 1.3.2 The `SerialFlashRecord` class
 To construct a `SerialFlashRecord` object, we must first have a `SerialFlashSector` object:
@@ -285,8 +287,10 @@ SerialFlashRecord record = sector.getRecord(recordIndex);
 
 Some functions that can be called from a `SerialFlashRecord` object includes:
 1. `bool hasBeenSent()` returns whether the record is sent or not.
-2. `uint8_t readContent(uint8_t *record)` writes content to a `uint8_t` array, and returns the size of the record.
-3. `uint8_t getRecordSize()` returns the size of the record.
+2. `void markSent()` marks the record as sent.
+3. `uint8_t readContent(uint8_t *record)` writes content to a `uint8_t` array, and returns the size of the record.
+4. `String getHexString()` returns a `String` of the record formatted in HEX.
+5. `uint8_t getRecordSize()` returns the size of the record.
 
 ## 2.0.0 The Filesystem
 It may not be needed for the user to understand the underlying filesystem of the flash memory. But if you are interested, keep reading.
