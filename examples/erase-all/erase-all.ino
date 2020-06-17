@@ -11,7 +11,7 @@ void setup() {
 
   pinMode(LORA_RESET, OUTPUT);
   digitalWrite(LORA_RESET, LOW);
-  flash.beginWork();
+  CustoFlash.beginWork();
 
   Serial.println();
   Serial.println(F("This utility will erase everything on the flash memory."));
@@ -28,7 +28,7 @@ void setup() {
   if (userResponse == '1') {
     Serial.println();
     Serial.println(F("Starting to erase entire flash memory."));
-    flash.eraseAll();
+    CustoFlash.eraseAll();
   } else {
     Serial.println();
     Serial.println(F("Erase process cancelled."));
@@ -40,7 +40,7 @@ void setup() {
 void loop() {
   Serial.println("Memory erased, checking flash.");
   for(uint32_t i = 0; i < MAX_SECTOR * SECTOR_SIZE; i++) {
-    flash.read(i, &buf, 1);
+    CustoFlash.read(i, &buf, 1);
     if (buf != 0xFF) {
       Serial.println(F("Erase process failed! Please try again."));
       while (true);
