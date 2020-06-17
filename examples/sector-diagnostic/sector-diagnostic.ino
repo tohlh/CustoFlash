@@ -12,7 +12,7 @@ void setup() {
 
   pinMode(LORA_RESET, OUTPUT);
   digitalWrite(LORA_RESET, LOW);
-  flash.beginWork();
+  CustoFlash.beginWork();
 }
 
 void loop() {
@@ -27,7 +27,7 @@ void loop() {
   Serial.print("SECTOR INDEX: ");
   Serial.println(sectorIndex);
 
-  SerialFlashSector sector = flash.getSector(sectorIndex);
+  SerialFlashSector sector = CustoFlash.getSector(sectorIndex);
 
   if (sector.isBlank()) {
     Serial.println("Blank sector check...");

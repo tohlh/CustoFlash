@@ -130,4 +130,4 @@ private:
 
 };
 
-CustoFlash flash;
+CustoFlash CustoFlash;

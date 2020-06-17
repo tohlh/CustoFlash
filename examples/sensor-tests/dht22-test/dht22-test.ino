@@ -19,7 +19,7 @@ void setup() {
   digitalWrite(LORA_RESET, LOW);
 
   dht.begin();
-  flash.beginWork();
+  CustoFlash.beginWork();
 }
 
 void loop() {
@@ -51,7 +51,7 @@ void loop() {
     Serial.print(record[i], HEX);
     Serial.print(" ");
   }
-  RecordAddress_t recordAddr = flash.writeRecord(record, 4);
+  RecordAddress_t recordAddr = CustoFlash.writeRecord(record, 4);
   Serial.print(" Sector Index: ");
   Serial.print(recordAddr.sectorIndex);
   Serial.print(" Record Index: ");
