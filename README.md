@@ -4,7 +4,7 @@ CustoFlash is a custom SPI flash library used for writing sensor data into the f
 This library contains modified versions of `SerialFlashChip.cpp` and `SerialFlashChip.h` by PaulStoffregen.
 
 ## 1.0.0 Usage
-To use CustoFlash, we have to include the `CustoFlash.h` header. We will then call the functions with a `flash` object.
+To use CustoFlash, we have to include the `CustoFlash.h` header. We will then call the functions with a `CustoFlash` object.
 ```cpp
 #include "CustoFlash.h"
 ```
@@ -46,7 +46,7 @@ digitalWrite(LORA_RESET, LOW);
 **Example**:
 ```cpp
 uint8_t record[] = { 0x30, 0x31, 0x32, 0x33, 0x34 };  //Record size = 5
-flash.writeRecord(record, 5);
+CustoFlash.writeRecord(record, 5);
 ```
 
 #### 1.2.3 `readRecord()`
@@ -61,7 +61,7 @@ recordAddr.sectorIndex = 0;
 recordAddr.recordIndex = 0;
 
 uint8_t buf[255]; //255 is the largest possible size of any single written record
-uint8_t recordSize = flash.readRecord(recordAddr, buf);
+uint8_t recordSize = CustoFlash.readRecord(recordAddr, buf);
 ```
 
 #### 1.2.4 `readRecords()`
@@ -72,7 +72,7 @@ uint8_t recordSize = flash.readRecord(recordAddr, buf);
 **Example**:
 ```cpp
 uint8_t buf[255]; //can be of any size
-uint16_t recordsSize = flash.readRecords(recordAddresses, 5, buf);  //in case there are 5 records
+uint16_t recordsSize = CustoFlash.readRecords(recordAddresses, 5, buf);  //in case there are 5 records
 ```
 
 #### 1.2.5 `markRecordSent()`
@@ -86,7 +86,7 @@ RecordAddress_t recordAddr;
 recordAddr.sectorIndex = 0;
 recordAddr.recordIndex = 0;
 
-flash.markRecordSent(recordAddr);
+CustoFlash.markRecordSent(recordAddr);
 ```
 
 #### 1.2.6 `markRecordsSent()`
@@ -96,7 +96,7 @@ flash.markRecordSent(recordAddr);
 `markRecordsSent()` will mark the array of given addresses as *sent*.\
 **Example**:
 ```cpp
-flash.markRecordsSent(recordAddresses, 5);  //suppose there are 5 addresses in recordAddresses array
+CustoFlash.markRecordsSent(recordAddresses, 5);  //suppose there are 5 addresses in recordAddresses array
 ```
 
 #### 1.2.7 `markLatestWrittenRecordSent()`
@@ -119,8 +119,8 @@ flash.markRecordsSent(recordAddresses, 5);  //suppose there are 5 addresses in r
 **Example**:
 ```cpp
 //To get the latest written record address
-uint16_t sectorIndex = flash.getLatestWrittenRecordSector();
-uint16_t recordIndex = flash.getLatestWrittenRecordIndex(sectorIndex);
+uint16_t sectorIndex = CustoFlash.getLatestWrittenRecordSector();
+uint16_t recordIndex = CustoFlash.getLatestWrittenRecordIndex(sectorIndex);
 ```
 
 #### 1.2.10 `getEarliestBacklogSector()`
@@ -137,8 +137,8 @@ uint16_t recordIndex = flash.getLatestWrittenRecordIndex(sectorIndex);
 **Example**:
 ```cpp
 //To get the earliest backlog address
-uint16_t sectorIndex = flash.getEarliestBacklogSector();
-uint16_t recordIndex = flash.getEarliestBacklogIndex(sectorIndex);
+uint16_t sectorIndex = CustoFlash.getEarliestBacklogSector();
+uint16_t recordIndex = CustoFlash.getEarliestBacklogIndex(sectorIndex);
 ```
 
 #### 1.2.12 `getLatestBacklogSector()`
@@ -155,8 +155,8 @@ There are two versions of `getLatestBacklogIndex()`, this section will talk abou
 **Example**:
 ```cpp
 //To get the latest backlog address
-uint16_t sectorIndex = flash.getLatestBacklogSector();
-uint16_t recordIndex = flash.getLatestBacklogIndex(sectorIndex);
+uint16_t sectorIndex = CustoFlash.getLatestBacklogSector();
+uint16_t recordIndex = CustoFlash.getLatestBacklogIndex(sectorIndex);
 ```
 
 #### 1.2.14 `getLatestBacklogIndex()` Part 2
@@ -167,11 +167,11 @@ This is the second version of `getLatestBacklogIndex()`, the one with two parame
 **Example**:
 ```cpp
 //To get the latest backlog address
-uint16_t sectorIndex = flash.getLatestBacklogSector();
-uint16_t recordIndex = flash.getLatestBacklogIndex(sectorIndex);
+uint16_t sectorIndex = CustoFlash.getLatestBacklogSector();
+uint16_t recordIndex = CustoFlash.getLatestBacklogIndex(sectorIndex);
 
 //To get the next latest backlog addresses of the same sector
-recordIndex = flash.getLatestBacklogIndex(sectorIndex, recordIndex);
+recordIndex = CustoFlash.getLatestBacklogIndex(sectorIndex, recordIndex);
 ```
 
 #### 1.2.17 `getNextBacklogAddress()`
@@ -183,10 +183,10 @@ recordIndex = flash.getLatestBacklogIndex(sectorIndex, recordIndex);
 ```cpp
 //To get the latest backlog address
 RecordAddress_t recordAddress;
-uint16_t recordSize = flash.getNextBacklogAddress(recordAddress);
+uint16_t recordSize = CustoFlash.getNextBacklogAddress(recordAddress);
 
 //To get the next latest backlog address preceding the prior one
-recordSize = flash.getNextBacklogAddress(recordAddress);
+recordSize = CustoFlash.getNextBacklogAddress(recordAddress);
 ```
 
 #### 1.2.16 `retrieveLatestBacklogsAddresses()`
@@ -198,14 +198,14 @@ recordSize = flash.getNextBacklogAddress(recordAddress);
 ```cpp
 //Retrieve the latest backlogs addresses
 RecordAddress_t addresses[100]; //Array length can be larger than actual length
-uint16_t arrayLength = flash.retrieveLatestBacklogsAddresses(64, addresses);  //Assuming we have a 64 byte payload limit via LoRaWAN
+uint16_t arrayLength = CustoFlash.retrieveLatestBacklogsAddresses(64, addresses);  //Assuming we have a 64 byte payload limit via LoRaWAN
 
 //To read the backlogs
 uint8_t buf[64];
-uint16_t bytesRead = flash.readRecords(addresses, arrayLength, buf);
+uint16_t bytesRead = CustoFlash.readRecords(addresses, arrayLength, buf);
 
 //To mark the backlogs as unsent
-flash.markRecordsSent(addresses, arrayLength);
+CustoFlash.markRecordsSent(addresses, arrayLength);
 ```
 
 #### 1.2.17 `read()`
@@ -217,7 +217,7 @@ This is the same `read()` function in the `SerialFlashChip` class. It reads dire
 ```cpp
 uint32_t memoryAddress = 0;
 uint8_t buf[8]; //Suppose that we are going to read 8 bytes of data.
-flash.read(memoryAddress, buf, 8);
+CustoFlash.read(memoryAddress, buf, 8);
 ```
 
 #### 1.2.18 `write()`
@@ -231,7 +231,7 @@ This is the same `write()` function in the `SerialFlashChip` class. It writes di
 ```cpp
 uint32_t memoryAddress = 0;
 uint8_t buf[] = { 0x00, 0x01, 0x02, 0x03 };
-flash.write(memoryAddress, buf, 4);
+CustoFlash.write(memoryAddress, buf, 4);
 ```
 
 #### 1.2.19 `eraseAll()`
@@ -265,7 +265,7 @@ To reduce the complexity of the code even further, there are two additional clas
 To construct a `SerialFlashSector` object, we must first have a `CustoFlash` object:
 ```cpp
 uint16_t sectorIndex = 0;
-SerialFlashSector sector = flash.getSector(sectorIndex);
+SerialFlashSector sector = CustoFlash.getSector(sectorIndex);
 ```
 Some functions that can be called from a `SerialFlashSector` object includes:
 1. `bool isActive()` returns true when the sector flag is active and vice versa,
