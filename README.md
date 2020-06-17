@@ -184,17 +184,17 @@ recordIndex = flash.getLatestBacklogIndex(sectorIndex, recordIndex);
 ```cpp
 //To get the latest backlog address
 RecordAddress_t recordAddress;
-uint16_t recordSize = flash.getNextBacklogAddress();
+uint16_t recordSize = flash.getNextBacklogAddress(recordAddress);
 
 //To get the next latest backlog address preceding the prior one
-recordSize = flash.getNextBacklogAddress();
+recordSize = flash.getNextBacklogAddress(recordAddress);
 ```
 
 #### 1.2.16 `retrieveLatestBacklogsAddresses()`
 **Parameter(s)**: `uint8_t payloadSize` and `RecordAddress_t *addresses`,\
 **Return**: `uint16_t` Length of array containing the latest backlog addresses,\
 **Description**:\
-`retrieveLatestBacklogsAddresses()` will retrieve the latest backlogs addresses into a `RecordAddress_t` array. Since there is a payload limit for different LoRaWAN data rates, this function will determine how many backlogs that can be sent at the same time based on the given `payloadSize`. This function is often used with `readRecords()` and `markRecordsSent()`.
+`retrieveLatestBacklogsAddresses()` will retrieve the latest backlogs addresses into a `RecordAddress_t` array. Since there is a payload limit for different LoRaWAN data rates, this function will determine how many backlogs that can be sent at the same time based on the given `payloadSize`. This function is often used with `readRecords()` and `markRecordsSent()`.\
 **Example**:
 ```cpp
 //Retrieve the latest backlogs addresses
